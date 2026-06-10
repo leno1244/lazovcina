@@ -390,7 +390,7 @@ public class HelloController {
             try {
                 cardView.setImage(new Image(getClass().getResourceAsStream(slikaPath)));
             } catch (Exception e) {
-                cardView.setImage(new Image(getClass().getResourceAsStream("card_back.jpg")));
+                cardView.setImage(new Image(getClass().getResourceAsStream("card_back.png")));
             }
             cardView.setFitWidth(90);
             cardView.setFitHeight(130);
@@ -477,11 +477,28 @@ public class HelloController {
         layerMainMenu.setVisible(true);
     }
 
-    @FXML
     void handleBullshit(ActionEvent event) {
-        System.out.println("KLIKNUTO: BULLSHIT!");
-        sakrijBullshitPanel();              // IZMENI: umesto layerBullshitAction.setVisible(false)
+        if (!bullshitAktivan) return;
+        bullshitAktivan = false;
+        layerBullshitAction.setVisible(false);
+        layerBullshitAction.setDisable(true);
         networkManager.posaljiBullshit(networkManager.getMyPlayerID(), poslednjiBacioID);
+    }
+    public void pokaziTekstIPileNaStolu(String poruka, int brojKarata, int bacioID) {
+        this.poslednjiBacioID = bacioID;
+        bullshitStatusLabel.setText(poruka);
+        bullshitCardCountLabel.setText(String.valueOf(brojKarata));
+        bullshitCardCountLabel.setVisible(true);
+        layerBullshitAction.setVisible(false);
+        this.bullshitAktivan = false;
+    }
+
+    public void upalisamoDugmeBullshit(int bacioID) {
+        if (bacioID != networkManager.getMyPlayerID()) {
+            this.bullshitAktivan = true;
+            layerBullshitAction.setDisable(false);
+            layerBullshitAction.setVisible(true);
+        }
     }
     public void pokaziStoSaBullshitom(String poruka, int brojKarata, int bacioID) {
         this.poslednjiBacioID = bacioID;

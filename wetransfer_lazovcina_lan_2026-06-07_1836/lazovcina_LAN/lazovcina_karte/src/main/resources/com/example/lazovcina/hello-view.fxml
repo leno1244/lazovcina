@@ -55,7 +55,7 @@
             <HBox fx:id="myHand" alignment="CENTER" layoutX="320.0" layoutY="560.0" prefWidth="600.0" prefHeight="130.0" spacing="-30.0" style="" />
 
             <!-- NOVO (nalepi ovo): -->
-            <HBox layoutX="585.0" layoutY="513.0" alignment="CENTER_LEFT" spacing="10.0">
+            <HBox layoutX="585.0" layoutY="508.0" alignment="CENTER_LEFT" spacing="10.0">
                 <Label fx:id="labelMyName" text="VI (TI)"
                        style="-fx-text-fill: #00ff00; -fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-font-weight: bold;" />
                 <Label fx:id="labelBrojKarataMe" text="13"
@@ -98,18 +98,16 @@
 
             <!-- BULLSHIT dugme - pomeren gore da ne gazi VI(TI) -->
             <Button text="BULLSHIT!" onAction="#handleBullshit"
-                    layoutX="565.0" layoutY="440.0"
+                    layoutX="575.0" layoutY="445.0"
                     style="-fx-background-color: #cc0000; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-pref-width: 150; -fx-background-radius: 8;" />
 
             <HBox fx:id="bullshitCardsContainer" visible="false" />
         </AnchorPane>
 
         <AnchorPane fx:id="layerMyTurn" visible="false" pickOnBounds="false">
-            <Label text="VAŠ POTEZ!" layoutX="585.0" layoutY="400.0"
-                   style="-fx-text-fill: #00ff00; -fx-font-family: 'Segoe UI'; -fx-font-size: 20px; -fx-font-weight: bold; -fx-effect: dropshadow(three-pass-box, black, 5, 0.0, 0, 0);" />
-            <Label fx:id="labelTrazeniRang" text="Baci: AS" layoutX="555.0" layoutY="428.0"
-                   style="-fx-text-fill: #ffdd00; -fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-font-weight: bold;" />
-            <HBox alignment="CENTER" layoutX="490.0" layoutY="458.0" prefWidth="300.0" spacing="20.0">
+            <Label fx:id="labelTrazeniRang" text="Baci: AS" layoutX="405.0" layoutY="468.0"
+                   style="-fx-text-fill: #ffdd00; -fx-font-family: 'Segoe UI'; -fx-font-size: 20px; -fx-font-weight: bold;" />
+            <HBox alignment="CENTER" layoutX="710.0" layoutY="453.0" prefWidth="300.0" spacing="20.0">
                 <Button text="BACI KARTE" onAction="#handlePlayCards"
                         style="-fx-background-color: #00aa00; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-pref-width: 130; -fx-background-radius: 8;" />
             </HBox>

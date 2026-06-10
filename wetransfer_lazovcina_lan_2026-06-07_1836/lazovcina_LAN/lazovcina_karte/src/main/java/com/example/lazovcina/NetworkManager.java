@@ -5,6 +5,9 @@ import javafx.application.Platform;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import javafx.util.Duration;
     public class NetworkManager {
 
         private final HelloController controller;
@@ -190,8 +193,11 @@ import java.util.List;
                         String imeIgraca = controller.getImeIgraca(kbPlayerID);
                         String statusMsg = imeIgraca + " je bacio " + kbBrojKarata + "x " + controller.formatujRank(kbRank) + "!";
                         controller.sakrijBullshitPanel();
-                        controller.pokaziStoSaBullshitom(statusMsg, kbBrojKarata, kbPlayerID);
+                        controller.pokaziTekstIPileNaStolu(statusMsg, kbBrojKarata, kbPlayerID);
                         controller.prikaziBaceneKarteNaStolu(kbBrojKarata);
+                        new Timeline(new KeyFrame(Duration.seconds(1), e ->
+                                controller.upalisamoDugmeBullshit(kbPlayerID)
+                        )).play();
                     });
                     break;
 
