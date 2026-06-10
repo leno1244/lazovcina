@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.image.Image?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="com.example.lazovcina.HelloController" prefWidth="1280" prefHeight="720">
+
+    <children>
+    <ImageView fx:id="backgroundImage" fitHeight="720.0" fitWidth="1300.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@64fdd50e-0191-4878-b4cc-386ac754a7bf.jpg" />
+        </image>
+    </ImageView>
+
+        <AnchorPane fx:id="layerGameTable" visible="false">
+            <VBox fx:id="player2Hand" alignment="CENTER" layoutX="50.0" layoutY="70.0" prefWidth="120.0" prefHeight="400.0" spacing="-60.0" style="" />
+            <Label fx:id="labelPlayer2" text="Player 2" layoutX="190.0" layoutY="330.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-font-weight: bold;" />
+            <Label fx:id="labelBrojKarataP2" text="13" layoutX="190.0" layoutY="370.0"
+                   style="-fx-text-fill: #ffdd00; -fx-font-family: 'Segoe UI'; -fx-font-size: 13px; -fx-font-weight: bold;" />
+            <HBox fx:id="p2Lives" alignment="CENTER_LEFT" layoutX="190.0" layoutY="350.0" spacing="8.0">
+                <Label text="X" style="-fx-text-fill: red; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                <Label text="X" style="-fx-text-fill: red; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                <Label text="X" style="-fx-text-fill: red; -fx-font-size: 20px; -fx-font-weight: bold;" />
+            </HBox>
+
+            <HBox fx:id="player3Hand" alignment="CENTER" layoutX="380.0" layoutY="20.0" prefWidth="400.0" prefHeight="120.0" spacing="-40.0" style="" />
+            <Label fx:id="labelPlayer3" text="Player 3" layoutX="580.0" layoutY="160.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-font-weight: bold;" />
+            <Label fx:id="labelBrojKarataP3" text="13" layoutX="700.0" layoutY="160.0"
+                   style="-fx-text-fill: #ffdd00; -fx-font-family: 'Segoe UI'; -fx-font-size: 13px; -fx-font-weight: bold;" />
+            <HBox fx:id="p3Lives" alignment="CENTER" layoutX="650.0" layoutY="155.0" spacing="8.0">
+                <Label text="X" style="-fx-text-fill: red; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                <Label text="X" style="-fx-text-fill: red; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                <Label text="X" style="-fx-text-fill: red; -fx-font-size: 20px; -fx-font-weight: bold;" />
+            </HBox>
+
+            <VBox fx:id="player4Hand" alignment="CENTER" layoutX="1110.0" layoutY="70.0" prefWidth="120.0" prefHeight="400.0" spacing="-60.0" style="" />
+            <Label fx:id="labelPlayer4" text="Player 4" layoutX="1030.0" layoutY="330.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-font-weight: bold;" />
+            <Label fx:id="labelBrojKarataP4" text="13" layoutX="1030.0" layoutY="370.0"
+                   style="-fx-text-fill: #ffdd00; -fx-font-family: 'Segoe UI'; -fx-font-size: 13px; -fx-font-weight: bold;" />
+            <HBox fx:id="p4Lives" alignment="CENTER_LEFT" layoutX="1030.0" layoutY="350.0" spacing="8.0">
+                <Label text="X" style="-fx-text-fill: red; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                <Label text="X" style="-fx-text-fill: red; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                <Label text="X" style="-fx-text-fill: red; -fx-font-size: 20px; -fx-font-weight: bold;" />
+            </HBox>
+
+
+            <HBox fx:id="myHand" alignment="CENTER" layoutX="320.0" layoutY="560.0" prefWidth="600.0" prefHeight="130.0" spacing="-30.0" style="" />
+
+            <!-- NOVO (nalepi ovo): -->
+            <HBox layoutX="585.0" layoutY="513.0" alignment="CENTER_LEFT" spacing="10.0">
+                <Label fx:id="labelMyName" text="VI (TI)"
+                       style="-fx-text-fill: #00ff00; -fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-font-weight: bold;" />
+                <Label fx:id="labelBrojKarataMe" text="13"
+                       style="-fx-text-fill: #ffdd00; -fx-font-family: 'Segoe UI'; -fx-font-size: 13px; -fx-font-weight: bold;" />
+                <HBox fx:id="myLives" alignment="CENTER" spacing="8.0">
+                    <Label text="X" style="-fx-text-fill: red; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                    <Label text="X" style="-fx-text-fill: red; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                    <Label text="X" style="-fx-text-fill: red; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                </HBox>
+            </HBox>
+
+            <StackPane fx:id="mainCardPile" layoutX="540.0" layoutY="260.0" prefWidth="200.0" prefHeight="200.0" style="">
+                <Label fx:id="bullshitCardCountLabel" text="0"
+                       style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;
+                  -fx-background-color: #cc0000; -fx-background-radius: 25;
+                  -fx-border-color: white; -fx-border-radius: 25; -fx-border-width: 2;
+                  -fx-alignment: center; -fx-pref-width: 50; -fx-pref-height: 50;"
+                       StackPane.alignment="BOTTOM_CENTER"
+                       translateY="30.0"
+                       visible="false" />
+            </StackPane>
+            <StackPane fx:id="timerCirclePane" layoutX="0" layoutY="0" visible="false" prefWidth="50" prefHeight="50">
+                <Canvas fx:id="timerCanvas" width="50" height="50" />
+                <Label fx:id="timerLabel" text="15" style="-fx-text-fill: #00ff00; -fx-font-size: 13px; -fx-font-weight: bold;" />
+            </StackPane>
+        </AnchorPane>
+
+        <AnchorPane fx:id="layerBullshitAction" visible="false" pickOnBounds="false">
+
+            <!-- Tekst poruke - centriran horizontalno preko AnchorPane -->
+            <Label fx:id="bullshitStatusLabel"
+                   text=""
+                   wrapText="true"
+                   layoutX="340.0" layoutY="195.0"
+                   prefWidth="600.0"
+                   style="-fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 17px; -fx-font-weight: bold; -fx-alignment: center; -fx-effect: dropshadow(three-pass-box, black, 6, 0.8, 0, 0);" />
+
+            <!-- Kružić sa brojem karata - malo niže, tačno na centru pile-a -->
+
+
+            <!-- BULLSHIT dugme - pomeren gore da ne gazi VI(TI) -->
+            <Button text="BULLSHIT!" onAction="#handleBullshit"
+                    layoutX="565.0" layoutY="440.0"
+                    style="-fx-background-color: #cc0000; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-pref-width: 150; -fx-background-radius: 8;" />
+
+            <HBox fx:id="bullshitCardsContainer" visible="false" />
+        </AnchorPane>
+
+        <AnchorPane fx:id="layerMyTurn" visible="false" pickOnBounds="false">
+            <Label text="VAŠ POTEZ!" layoutX="585.0" layoutY="400.0"
+                   style="-fx-text-fill: #00ff00; -fx-font-family: 'Segoe UI'; -fx-font-size: 20px; -fx-font-weight: bold; -fx-effect: dropshadow(three-pass-box, black, 5, 0.0, 0, 0);" />
+            <Label fx:id="labelTrazeniRang" text="Baci: AS" layoutX="555.0" layoutY="428.0"
+                   style="-fx-text-fill: #ffdd00; -fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-font-weight: bold;" />
+            <HBox alignment="CENTER" layoutX="490.0" layoutY="458.0" prefWidth="300.0" spacing="20.0">
+                <Button text="BACI KARTE" onAction="#handlePlayCards"
+                        style="-fx-background-color: #00aa00; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-pref-width: 130; -fx-background-radius: 8;" />
+            </HBox>
+        </AnchorPane>
+
+        <AnchorPane fx:id="layerLiarBubble" visible="false" pickOnBounds="false">
+
+            <!-- P2 LEVO - rep desno od oblačića -->
+            <VBox fx:id="liarBubbleP2" alignment="CENTER" layoutX="200.0" layoutY="230.0" visible="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10;
+                 -fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 10;
+                 -fx-padding: 3 10 3 10;
+                 -fx-effect: dropshadow(three-pass-box, black, 4, 0.6, 0, 0);">
+                <Label text="LAŽEŠ!"
+                       style="-fx-font-family: 'Segoe UI'; -fx-font-size: 26px;
+                      -fx-font-weight: bold; -fx-text-fill: #cc0000;" />
+            </VBox>
+            <Label fx:id="liarTailP2" text="❮" layoutX="180.0" layoutY="238.0" visible="false"
+                   style="-fx-text-fill: black; -fx-font-size: 14px;" />
+
+            <!-- P3 GORE - rep dole od oblačića -->
+            <VBox fx:id="liarBubbleP3" alignment="CENTER" layoutX="755.0" layoutY="150.0" visible="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10;
+                 -fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 10;
+                 -fx-padding: 3 10 3 10;
+                 -fx-effect: dropshadow(three-pass-box, black, 4, 0.6, 0, 0);">
+                <Label text="LAŽEŠ!"
+                       style="-fx-font-family: 'Segoe UI'; -fx-font-size: 26px;
+                      -fx-font-weight: bold; -fx-text-fill: #cc0000;" />
+            </VBox>
+            <Label fx:id="liarTailP3" text="❮" layoutX="758.0" layoutY="130.0" visible="false"
+                   style="-fx-text-fill: black; -fx-font-size: 14px; -fx-rotate: 90;" />
+
+            <!-- P4 DESNO - rep levo od oblačića -->
+            <VBox fx:id="liarBubbleP4" alignment="CENTER" layoutX="1000.0" layoutY="230.0" visible="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10;
+                 -fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 10;
+                 -fx-padding: 3 10 3 10;
+                 -fx-effect: dropshadow(three-pass-box, black, 4, 0.6, 0, 0);">
+                <Label text="LAŽEŠ!"
+                       style="-fx-font-family: 'Segoe UI'; -fx-font-size: 26px;
+                      -fx-font-weight: bold; -fx-text-fill: #cc0000;" />
+            </VBox>
+            <Label fx:id="liarTailP4" text="❯" layoutX="1100.0" layoutY="238.0" visible="false"
+                   style="-fx-text-fill: black; -fx-font-size: 14px; -fx-rotate: 180;" />
+
+            <!-- ME DOLE - rep gore od oblačića -->
+            <VBox fx:id="liarBubbleMe" alignment="CENTER" layoutX="755.0" layoutY="465.0" visible="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10;
+                 -fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 10;
+                 -fx-padding: 3 10 3 10;
+                 -fx-effect: dropshadow(three-pass-box, black, 4, 0.6, 0, 0);">
+                <Label text="LAŽEŠ!"
+                       style="-fx-font-family: 'Segoe UI'; -fx-font-size: 26px;
+                      -fx-font-weight: bold; -fx-text-fill: #cc0000;" />
+            </VBox>
+            <Label fx:id="liarTailMe" text="❯" layoutX="775.0" layoutY="515.0" visible="false"
+                   style="-fx-text-fill: black; -fx-font-size: 14px; -fx-rotate: -90;" />
+            <!-- Veliki dinamički tekst posred ekrana kad neko okrivljuje -->
+            <Label fx:id="liarCenterLabel" text=""
+                   AnchorPane.leftAnchor="0"
+                   AnchorPane.rightAnchor="0"
+                   layoutY="185.0"
+                   wrapText="true"
+                   visible="false"
+                   style="-fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 20px;
+              -fx-font-weight: bold; -fx-alignment: center;
+              -fx-effect: dropshadow(three-pass-box, black, 8, 0.9, 0, 0);" />
+        </AnchorPane>
+
+        <AnchorPane fx:id="layerShowdown" visible="false" pickOnBounds="false">
+            <VBox alignment="CENTER" spacing="20.0" layoutX="340.0" layoutY="150.0" prefWidth="600.0">
+                <Label text="OTKRIVANJE KARATA (SHOWDOWN)" style="-fx-text-fill: gold; -fx-font-size: 26px; -fx-font-weight: bold;" />
+                <Label fx:id="showdownVerdictLabel" text="Tužilac je bio u pravu! Varalica dobija poklončić! :)" wrapText="true" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-alignment: center;" />
+                <HBox fx:id="showdownCardsContainer" alignment="CENTER" spacing="10.0" prefHeight="150.0" style="" />
+            </VBox>
+
+        </AnchorPane>
+
+        <AnchorPane fx:id="layerHost" visible="false" style="-fx-background-color: rgba(10,30,10,0.95);">
+            <VBox alignment="CENTER" spacing="15.0" layoutX="440.0" layoutY="250.0" prefWidth="400.0"
+                  style="-fx-background-color: rgba(0,0,0,0.85); -fx-padding: 30; -fx-background-radius: 20; -fx-border-color: #3a6a3a; -fx-border-width: 2;">
+                <Label text="KREIRANJE SERVERA" style="-fx-text-fill: #00ff00; -fx-font-size: 24px; -fx-font-weight: bold;" />
+                <Label text="Naziv Servera:" style="-fx-text-fill: white;" />
+                <TextField fx:id="serverNameField" promptText="Ime tvog servera..." style="-fx-background-radius: 5; -fx-padding: 8;" />
+                <Button text="KREIRAJ I ČEKAJ IGRAČE" onAction="#handleConfirmHost"
+                        style="-fx-background-color: #3a8a3a; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-pref-width: 340; -fx-background-radius: 8; -fx-padding: 10;" />
+                <Button text="Nazad u glavni meni" onAction="#handleBackToMenu"
+                        style="-fx-background-color: #555; -fx-text-fill: white; -fx-font-size: 13px; -fx-pref-width: 340; -fx-background-radius: 8; -fx-padding: 8;" />
+            </VBox>
+        </AnchorPane>
+
+    <AnchorPane fx:id="layerWaiting" visible="false" style="-fx-background-color: rgba(10,30,10,0.95);">
+
+        <VBox alignment="CENTER" spacing="25.0" layoutX="440.0" layoutY="250.0" prefWidth="400.0"
+              style="-fx-background-color: rgba(0,0,0,0.75); -fx-padding: 30; -fx-background-radius: 15; -fx-border-color: #3a6a3a; -fx-border-width: 2;">
+            <Label text="Čekaonica (Lobby)" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" />
+            <Label fx:id="labelWaitingStatus" text="Čekanje na igrače... (1/4)"
+                   style="-fx-text-fill: #00ff00; -fx-font-size: 18px; -fx-font-weight: bold;" />
+            <VBox fx:id="waitingPlayersList" spacing="8.0" alignment="CENTER_LEFT"
+                  style="-fx-background-color: rgba(255,255,255,0.07); -fx-padding: 10; -fx-background-radius: 8; -fx-min-width: 340;" />
+            <Label text="Igra počinje kada se pridruže 4 igrača."
+                   style="-fx-text-fill: #aaa; -fx-font-size: 13px;" />
+            <Button text="Prekini i nazad" onAction="#handleLeaveWaiting"
+                    style="-fx-background-color: #cc0000; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 6; -fx-pref-width: 200;" />
+        </VBox>
+    </AnchorPane>
+
+        <AnchorPane fx:id="layerGuest" visible="false" >
+            <VBox alignment="CENTER" spacing="15.0" layoutX="440.0" layoutY="250.0" prefWidth="400.0"
+                  style="-fx-background-color: rgba(0,0,0,0.85); -fx-padding: 30; -fx-background-radius: 20; -fx-border-color: #2a6aaf; -fx-border-width: 2;">
+                <Label text="PRIDRUŽI SE IGRI" style="-fx-text-fill: #4a9aff; -fx-font-size: 24px; -fx-font-weight: bold;" />
+                <Label text="IP Adresa Host-a:" style="-fx-text-fill: white;" />
+                <TextField fx:id="ipAddressField" promptText="127.0.0.1" style="-fx-background-radius: 5; -fx-padding: 8;" />
+                <Button text="PRONAĐI SOBE" onAction="#handleConfirmGuest"
+                        style="-fx-background-color: #2a6aaf; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-pref-width: 340; -fx-background-radius: 8; -fx-padding: 10;" />
+                <Button text="Nazad u glavni meni" onAction="#handleBackToMenu"
+                        style="-fx-background-color: #555; -fx-text-fill: white; -fx-font-size: 13px; -fx-pref-width: 340; -fx-background-radius: 8; -fx-padding: 8;" />
+            </VBox>
+        </AnchorPane>
+
+    <AnchorPane fx:id="layerServerList" visible="false">
+
+        <VBox alignment="CENTER" spacing="15.0" layoutX="390.0" layoutY="120.0" prefWidth="500.0">
+            <Label text="Dostupne sobe na unetoj IP adresi" style="-fx-text-fill: gold; -fx-font-size: 22px; -fx-font-weight: bold;" />
+
+            <VBox spacing="10.0" style="-fx-background-color: rgba(0,0,0,0.4); -fx-padding: 15; -fx-background-radius: 10;">
+                <HBox spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-padding: 8;">
+                    <Label text="Naziv servera / sobe" prefWidth="250.0" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+                    <Label text="Igrači" prefWidth="80.0" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+                    <Label text="Akcija" prefWidth="100.0" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+                </HBox>
+                <VBox fx:id="roomListContainer" spacing="5.0" />
+            </VBox>
+
+
+
+
+            <Button text="Nazad u glavni meni" onAction="#handleBackToMenu" style="-fx-background-color: #555; -fx-text-fill: white; -fx-pref-width: 200;" />
+        </VBox>
+    </AnchorPane>
+
+    <AnchorPane fx:id="layerRules" visible="false">
+        <VBox alignment="CENTER" spacing="12.0" layoutX="240.0" layoutY="60.0" prefWidth="800.0" style="-fx-background-color: #222; -fx-padding: 25; -fx-background-radius: 20; -fx-border-color: gold; -fx-border-width: 2; -fx-border-radius: 20;">
+            <Label text="PRAVILA IGRE - BULLSHIT (LAŽOV)" style="-fx-text-fill: gold; -fx-font-size: 24px; -fx-font-weight: bold;" />
+            <VBox spacing="8.0" alignment="TOP_LEFT" style="-fx-padding: 10;">
+                <Label text="1. Svako od igrača dobija po 13 karata iz špila." style="-fx-text-fill: white; -fx-font-size: 14px;" />
+                <Label text="2. Igra kreće od nasumičnog igrača od kojeg se traži određeni broj karata (1-4) sa najmanjom vrednošću A. Igrač ima 15 sekundi da odigra potez, u suprotnom se 1 nasumično odabrana karta predaje iz njegove ruke u špil" style="-fx-text-fill: white; -fx-font-size: 14px;" wrapText="true" />
+                <Label text="3. Igrač odabira koliko i koje karte prinosi kao traženu vrednost (bilo blef, bilo prave)." style="-fx-text-fill: white; -fx-font-size: 14px;" wrapText="true" />
+                <Label text="4. Ostali igrači procenjuju da li je trenutni igrač slagao. Igračima je to moguće sve dok igrač koji je sledeći na redu ne odigra svoj potez" style="-fx-text-fill: white; -fx-font-size: 14px;" wrapText="true" />
+                <Label text="5. Ukoliko neko posumnja, ima pravo da uzvikne 'LAŽOV!' (maksimalno 3 puta može biti bezuspešan)." style="-fx-text-fill: white; -fx-font-size: 14px;" wrapText="true" />
+                <Label text="6. Ako je tužilac u pravu, varalica kupuje sve karte sa stola, a tužiocu ostaje isti broj šansi za procenu, a onda je automatski na potezu tužilac. " style="-fx-text-fill: white; -fx-font-size: 14px;" wrapText="true" />
+                <Label text="7. Ako tužilac promaši, gubi jednu šansu (X) i sve karte sa stola idu njemu u ruke. Kada se to dogodi, na potezu je igrac koji bi inače bio na potezu da dugme nije pritisnuto (onaj s desne strane optuženog)." style="-fx-text-fill: white; -fx-font-size: 14px;" wrapText="true" />
+                <Label text="8. Kada igrač preda karte bez optužbe, one idu na skrivenu gomilu na stolu koja se konstantno uvećava." style="-fx-text-fill: white; -fx-font-size: 14px;" wrapText="true" />
+                <Label text="9. Pobednik je onaj koji se prvi uspešno otarasi svih karata iz svoje ruke." style="-fx-text-fill: gold; -fx-font-size: 14px; -fx-font-weight: bold;" wrapText="true" />
+            </VBox>
+            <Button text="Zatvori pravila" onAction="#handleHideRules" style="-fx-background-color: gold; -fx-text-fill: black; -fx-font-size: 14px; -fx-font-weight: bold; -fx-pref-width: 150;" />
+        </VBox>
+    </AnchorPane>
+
+    <AnchorPane fx:id="layerFullRoomError" visible="false" style="-fx-background-color: rgba(0,0,0,0.95);">
+        <VBox alignment="CENTER" spacing="20.0" layoutX="440.0" layoutY="260.0" prefWidth="400.0" style="-fx-background-color: #331111; -fx-padding: 30; -fx-background-radius: 15; -fx-border-color: red;">
+            <Label text="KONEKCIJA ODBIJENA!" style="-fx-text-fill: red; -fx-font-size: 22px; -fx-font-weight: bold;" />
+            <Label text="Soba je puna (4/4 igrača) ili server na navedenoj IP adresi nije aktivan." wrapText="true" style="-fx-text-fill: white; -fx-font-size: 15px; -fx-alignment: center;" />
+            <Button text="U redu" onAction="#handleCloseError" style="-fx-background-color: red; -fx-text-fill: white; -fx-pref-width: 120;" />
+        </VBox>
+    </AnchorPane>
+
+    <AnchorPane fx:id="layerMainMenu" visible="true">
+        <VBox alignment="CENTER" spacing="15.0" layoutX="440.0" layoutY="120.0" prefWidth="400.0" style="-fx-background-color: rgba(0,0,0,0.85); -fx-padding: 30; -fx-background-radius: 20; -fx-border-color: #3a6a3a; -fx-border-width: 2;">
+            <Label text="BULLSHIT - LAŽOV" style="-fx-text-fill: #00ff00; -fx-font-size: 32px; -fx-font-weight: bold; -fx-effect: dropshadow(three-pass-box, black, 4, 0.5, 0, 0);" />
+            <Label text="Mrežna kartaška igra (OOP Projekat)" style="-fx-text-fill: #aaa; -fx-font-size: 13px;" />
+
+            <VBox spacing="5.0" alignment="TOP_LEFT" style="-fx-padding: 10 0 0 0;">
+                <Label text="Korisničko ime (Username):" style="-fx-text-fill: white;" />
+                <TextField fx:id="usernameField" promptText="Unesi svoj nick..." style="-fx-background-radius: 5; -fx-padding: 8;" />
+            </VBox>
+
+
+
+            <Button text="HOSTUJ IGRU (CREATE SERVER)" onAction="#handleHostGame" style="-fx-background-color: #3a8a3a; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-pref-width: 340; -fx-background-radius: 8; -fx-padding: 10;" />
+            <Button text="PRIDRUŽI SE (FIND LAN ROOM)" onAction="#handleJoinGame" style="-fx-background-color: #2a6aaf; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-pref-width: 340; -fx-background-radius: 8; -fx-padding: 10;" />
+            <Button text="POGLEDAJ PRAVILA" onAction="#handleShowRules" style="-fx-background-color: gold; -fx-text-fill: black; -fx-font-size: 14px; -fx-font-weight: bold; -fx-pref-width: 340; -fx-background-radius: 8; -fx-padding: 8;" />
+        </VBox>
+    </AnchorPane>
+
+    <AnchorPane fx:id="layerEndScreen" visible="false" style="-fx-background-color: rgba(0,0,0,0.9);">
+        <VBox alignment="CENTER" spacing="25.0" layoutX="390.0" layoutY="220.0" prefWidth="500.0" style="-fx-background-color: #222; -fx-padding: 40; -fx-background-radius: 20; -fx-border-color: gold; -fx-border-width: 2;">
+            <Label text="PARTIJA JE ZAVRŠENA!" style="-fx-text-fill: gold; -fx-font-size: 30px; -fx-font-weight: bold;" />
+            <Label fx:id="winnerLabel" text="Placeholder za pobednika" wrapText="true" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-alignment: center;" />
+            <Button fx:id="backToMenuButton" text="Nazad u Glavni Meni" onAction="#handleBackToMenuFromEnd" style="-fx-background-color: #3a8a3a; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 10 20 10 20; -fx-background-radius: 8;" />
+        </VBox>
+    </AnchorPane>
+    </children>
+</StackPane>
