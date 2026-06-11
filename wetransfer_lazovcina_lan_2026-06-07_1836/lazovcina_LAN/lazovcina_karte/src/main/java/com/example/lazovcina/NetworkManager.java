@@ -111,10 +111,15 @@ import javafx.util.Duration;
                             lazneKarte.add(new Card(Suit.PIK, prijavljeniRank));
                         }
                         int indeksIgraca = trenutniID - 1;
-                        controller.getLogika().getGomila().dodajBacanje(lazneKarte, prijavljeniRank, indeksIgraca);
-                        controller.getLogika().getTrenutniIndeks();
-// Azuriraj trenutni rang u logici
-                        Platform.runLater(() -> controller.azurirajTrenutniRangNaLogici(baceniRankStr));
+                        // Liniju 112 obrisi potpuno — rezultat se ne koristi nigde
+// Liniju 111 ostavi ali dodaj final za lambdu:
+                        final List<Card> finalLazneKarte = lazneKarte;
+                        final Rank finalPrijavljeniRank = prijavljeniRank;
+                        final int finalIndeksIgraca = indeksIgraca;
+                        Platform.runLater(() -> {
+                            controller.getLogika().getGomila().dodajBacanje(finalLazneKarte, finalPrijavljeniRank, finalIndeksIgraca);
+                            controller.azurirajTrenutniRangNaLogici(baceniRankStr);
+                        });
 
                         String kbMsg = Protocol.build(Protocol.KARTE_BACENE, parts[1], parts[2], parts[3]);
                         server.broadcastSvima(kbMsg);
@@ -179,6 +184,7 @@ import javafx.util.Duration;
                     final int potezMin = Integer.parseInt(parts[3]);
                     final int potezMax = Integer.parseInt(parts[4]);
                     Platform.runLater(() -> {
+                        controller.sakrijBullshitPanel();
                         controller.obavestitiOPotezu(potezID, potezRank, potezMin, potezMax);
                         controller.pokreniTajmerZaIgraca(potezID);
                     });
@@ -193,11 +199,13 @@ import javafx.util.Duration;
                         String imeIgraca = controller.getImeIgraca(kbPlayerID);
                         String statusMsg = imeIgraca + " je bacio " + kbBrojKarata + "x " + controller.formatujRank(kbRank) + "!";
                         controller.sakrijBullshitPanel();
-                        controller.pokaziTekstIPileNaStolu(statusMsg, kbBrojKarata, kbPlayerID);
+                        controller.pokaziTekstNaStolu(statusMsg, kbBrojKarata, kbPlayerID);
                         controller.prikaziBaceneKarteNaStolu(kbBrojKarata);
-                        new Timeline(new KeyFrame(Duration.seconds(1), e ->
-                                controller.upalisamoDugmeBullshit(kbPlayerID)
-                        )).play();
+                        if (kbPlayerID != myPlayerID) {
+                            new Timeline(new KeyFrame(Duration.seconds(1), e ->
+                                    controller.upaliDugmeBullshit(kbPlayerID)
+                            )).play();
+                        }
                     });
                     break;
 
@@ -244,6 +252,7 @@ import javafx.util.Duration;
                     final int optuzeniID = Integer.parseInt(parts[2]);
                     final int indeksVikaca = tuzilacID - 1;
                     Platform.runLater(() -> {
+                        controller.sakrijBullshitPanel();
                         controller.prikaziBullshitOblacic(tuzilacID, optuzeniID);
                         if (isHost) {
                             controller.pokrniShowdownSaOdlaganjeemPoteza(indeksVikaca);

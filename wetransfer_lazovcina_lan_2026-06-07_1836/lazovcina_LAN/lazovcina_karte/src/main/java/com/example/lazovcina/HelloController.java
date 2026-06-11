@@ -388,8 +388,7 @@ public class HelloController {
         for (String slikaPath : karteSlike) {
             ImageView cardView = new ImageView();
             try {
-                cardView.setImage(new Image(getClass().getResourceAsStream(slikaPath)));
-            } catch (Exception e) {
+                cardView.setImage(new Image(getClass().getResourceAsStream(cardToImagePath(slikaPath))));            } catch (Exception e) {
                 cardView.setImage(new Image(getClass().getResourceAsStream("card_back.png")));
             }
             cardView.setFitWidth(90);
@@ -482,7 +481,7 @@ public class HelloController {
         bullshitAktivan = false;
         layerBullshitAction.setVisible(false);
         layerBullshitAction.setDisable(true);
-        networkManager.posaljiBullshit(networkManager.getMyPlayerID(), poslednjiBacioID);
+    networkManager.posaljiBullshit(networkManager.getMyPlayerID(), poslednjiBacioID);
     }
     public void pokaziTekstIPileNaStolu(String poruka, int brojKarata, int bacioID) {
         this.poslednjiBacioID = bacioID;
@@ -500,18 +499,21 @@ public class HelloController {
             layerBullshitAction.setVisible(true);
         }
     }
-    public void pokaziStoSaBullshitom(String poruka, int brojKarata, int bacioID) {
+    // Zamenjuje staru pokaziStoSaBullshitom — poziva se odmah
+    public void pokaziTekstNaStolu(String poruka, int brojKarata, int bacioID) {
         this.poslednjiBacioID = bacioID;
         bullshitStatusLabel.setText(poruka);
         bullshitCardCountLabel.setText(String.valueOf(brojKarata));
         bullshitCardCountLabel.setVisible(true);
-        // Bullshit dugme prikazuj SAMO igracima koji NISU bacili karte
+        bullshitAktivan = false;
+    }
+
+    // Poziva se nakon 1 sekunde iz NetworkManager
+    public void upaliDugmeBullshit(int bacioID) {
         if (bacioID != networkManager.getMyPlayerID()) {
-            this.bullshitAktivan = true;
+            bullshitAktivan = true;
+            layerBullshitAction.setDisable(false);
             layerBullshitAction.setVisible(true);
-        } else {
-            this.bullshitAktivan = false;
-            layerBullshitAction.setVisible(false);
         }
     }
 
@@ -840,16 +842,27 @@ public class HelloController {
             System.out.println("Nedozvoljen potez: " + razlog);
         }
 
+
         @Override
         public void onBullshitRezultat(Igrac lagovac, Igrac vikac, boolean jeLagao, Igrac kaznjeni, List<Card> karte) {
             String ishod = jeLagao ? "LAZOV" : "ISKREN";
-            // Napravi putanje slika od stvarnih karata
             StringBuilder sb = new StringBuilder();
             for (Card c : karte) {
                 if (sb.length() > 0) sb.append(",");
-                sb.append(c.toString()); // npr. "KRALJ_PIK" → metoda napraviPutanju postoji u Card
+                sb.append(c.toString());
             }
-            networkManager.posaljiShowdownRezultat(ishod, kaznjeni.getIndeks() + 1, sb.toString());
+            String karteSlike = sb.toString();
+
+            // Gostima šalji kroz mrežu kao i pre
+            networkManager.posaljiShowdownRezultat(ishod, kaznjeni.getIndeks() + 1, karteSlike);
+
+            // Host poziva direktno — bez runLater skokova
+            String pokaziPoruka = jeLagao
+                    ? "Tužilac je bio u pravu! " + kaznjeni.getIme() + " je varao i dobija sve karte!"
+                    : kaznjeni.getIme() + " je bio iskren! Tužilac dobija sve karte!";
+            List<String> slike = new ArrayList<>();
+            for (String s : karteSlike.split(",")) slike.add(s);
+            aktivirajShowdown(pokaziPoruka, slike);
         }
 
         @Override
@@ -892,6 +905,7 @@ public class HelloController {
     public void sakrijBullshitPanel() {
         bullshitAktivan = false;
         layerBullshitAction.setVisible(false);
+        layerBullshitAction.setDisable(true);
         bullshitCardCountLabel.setVisible(false);
         bullshitStatusLabel.setText("");
     }
@@ -952,42 +966,76 @@ public class HelloController {
         }
     }
     public void pokrniShowdownSaOdlaganjeemPoteza(int indeksVikaca) {
-        // Zaustavi tajmer tokom showdowna
         if (timerTimeline != null) timerTimeline.stop();
         timerCirclePane.setVisible(false);
 
-        // Pokreni bullshit logiku — ona okida onBullshitRezultat → posaljiShowdownRezultat → aktivirajShowdown
         logika.vikniBS(indeksVikaca);
+        // vikniBS → onBullshitRezultat → posaljiShowdownRezultat → broadcastSvima
+        // broadcastSvima stavlja aktivirajShowdown u runLater red (2 skoka za hosta)
+        // Rešenje: host poziva aktivirajShowdown DIREKTNO ovde, odmah nakon vikniBS
 
-        // Nakon 6 sekundi: sakrij showdown i posalji sledeci potez
+        // Napravi poruku za showdown ručno da dobiješ podatke
+        // (iste podatke koje bi inače dobio kroz SHOWDOWN_REZULTAT)
+        GomilaNaStolu gomila = logika.getGomila(); // gomila je već očišćena u vikniBS!
+        // → gomila.getPoslednjeKarte() je prazna nakon vikniBS jer uzmiSveKarte() poziva ocisti()
+        // Znači NE možemo ovde da čitamo karte iz gomile — one su već dodate kaznjenom igraču
+
+        // JEDINO ispravno rešenje: prebaci aktivirajShowdown poziv iz onBullshitRezultat
+        // direktno, bez prolaska kroz broadcastSvima za hosta
+
         Timeline showdownTimer = new Timeline(new KeyFrame(Duration.seconds(6), e -> {
             layerShowdown.setVisible(false);
-            // Azuriraj broj karata kaznjenog igraca na hostu
-            // (logika je vec dodala karte kaznjenom, ali NM ne zna novi broj)
-            // Posalji sledeciPotez — host zna ko je sledeci iz logike
-            int sledeciIndeks = logika.getTrenutniIndeks(); // 0-based
-            int sledeciID = sledeciIndeks + 1; // 1-based
-            // Azuriraj brojKarataIgraca[] za kaznjenog
             for (int i = 0; i < 4; i++) {
                 Igrac ig = logika.getIgrac(i);
                 networkManager.getBrojKarataIgraca()[i] = ig.getBrojKarata();
-                // Broadcast azuriranja karata za sve
                 networkManager.posaljiAzuriranjeBrojaKarata(i + 1, ig.getBrojKarata());
                 azurirajBrojKarata(i + 1, ig.getBrojKarata());
             }
-
-
-// NOVO:
             String noviRang = networkManager.getTrenutniRangNaMrezi();
+            int sledeciID = logika.getTrenutniIndeks() + 1;
             networkManager.posaljiTvojPotez(sledeciID, noviRang, 1, 4);
         }));
         showdownTimer.setCycleCount(1);
         showdownTimer.play();
     }
-    public GlavnaLogika getLogika() {
-        return logika;
+    private String cardToImagePath(String cardString) {
+        // cardString je npr. "KRALJ_PIK"
+        String[] delovi = cardString.split("_", 2);
+        if (delovi.length < 2) return "card_back.png";
+        try {
+            Rank rank = Rank.valueOf(delovi[0]);
+            Suit suit = Suit.valueOf(delovi[1]);
+            // Isti switch kao u Card.napraviPutanju
+            String rankDeo;
+            switch (rank) {
+                case AS: rankDeo = "ace"; break;
+                case DVOJKA: rankDeo = "2"; break;
+                case TROJKA: rankDeo = "3"; break;
+                case CETVORKA: rankDeo = "4"; break;
+                case PETICA: rankDeo = "5"; break;
+                case SESTICA: rankDeo = "6"; break;
+                case SEDMICA: rankDeo = "7"; break;
+                case OSMICA: rankDeo = "8"; break;
+                case DEVETKA: rankDeo = "9"; break;
+                case DESETKA: rankDeo = "10"; break;
+                case DECKO: rankDeo = "jack"; break;
+                case DAMA: rankDeo = "queen"; break;
+                case KRALJ: rankDeo = "king"; break;
+                default: rankDeo = ""; break;
+            }
+            String suitDeo;
+            switch (suit) {
+                case PIK: suitDeo = "spades"; break;
+                case KARO: suitDeo = "diamonds"; break;
+                case HERC: suitDeo = "hearts"; break;
+                case TREF: suitDeo = "clubs"; break;
+                default: suitDeo = ""; break;
+            }
+            return rankDeo + "_of_" + suitDeo + ".png";
+        } catch (Exception e) {
+            return "card_back.png";
+        }
     }
-
     public void azurirajTrenutniRangNaLogici(String rankStr) {
         try {
             Rank rank = Rank.valueOf(rankStr);
@@ -997,5 +1045,8 @@ public class HelloController {
         } catch (Exception e) {
             System.out.println("Greška pri parsiranju ranka: " + rankStr);
         }
+    }
+    public GlavnaLogika getLogika() {
+        return logika;
     }
 }
