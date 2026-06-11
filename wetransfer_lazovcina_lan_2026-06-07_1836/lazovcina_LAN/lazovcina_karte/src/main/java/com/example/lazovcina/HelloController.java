@@ -476,7 +476,7 @@ public class HelloController {
         sakrijSveSlojeve();
         layerMainMenu.setVisible(true);
     }
-
+@FXML
     void handleBullshit(ActionEvent event) {
         if (!bullshitAktivan) return;
         bullshitAktivan = false;
